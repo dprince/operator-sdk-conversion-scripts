@@ -11,11 +11,16 @@ operator-sdk.txt
 
 3) $ bash sync-git-with-dir.sh keystone-operator keystone-operator-v4
 
-4) cd keystone-operator, create a new branch: git co -b operator_sdk_1.41.1
+4) cd keystone-operator, create a new branch:
+```
+git co -b operator_sdk_1.41.1
+```
 
 5) remove unused tests.
+```
  cd internal/controller && rm *_test.go; cd -
  cd internal/webhook/v1beta1/ && rm *_test.go; cd -
+```
 
 6) fix paths in copied over files (use cursor)
   cd test/functional
@@ -23,15 +28,18 @@ operator-sdk.txt
   replace: pkg/keystone with internal/keystone
 
 7) Makefile changes (to the original Makefile):
+```
  -update main.go to cmd/main.go
  -update api
  -bump KUSTOMIZE_VERSION ?= v5.6.0
  -bump OPERATOR_SDK_VERSION ?= v1.41.1
  -change tests to test
+```
 
 8) git add api/bases?
 
 9) CI updates.
+```
  .ci_operator.yaml
 -  tag: ci-build-root-golang-1.24-sdk-1.31
 +  tag: ci-build-root-golang-1.24-sdk-1.41.1
@@ -41,6 +49,7 @@ operator-sdk.txt
 +        - openstack-k8s-operators-content-provider:
 +            vars:
 +              cifmw_install_yamls_sdk_version: v1.41.1
+```
 
 10) Wire up the webhooks!
 
