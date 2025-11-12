@@ -42,6 +42,8 @@ operator-sdk.txt
 +            vars:
 +              cifmw_install_yamls_sdk_version: v1.41.1
 
+10) Wire up the webhooks!
+
 --------------------------
 Cleanup:
  drop the <operator-name>-proxy-rolebinding, and <operator-name>-proxy-role
