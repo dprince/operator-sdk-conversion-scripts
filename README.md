@@ -49,6 +49,11 @@ git co -b operator_sdk_1.41.1
 +        - openstack-k8s-operators-content-provider:
 +            vars:
 +              cifmw_install_yamls_sdk_version: v1.41.1
+
+.github/workflows/build-<operator_name>-operator.yaml
+-      operator_sdk_version: 1.31.0
++      operator_sdk_version: 1.41.1
+
 ```
 
 10) Wire up the webhooks!
