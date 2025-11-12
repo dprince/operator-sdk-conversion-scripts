@@ -44,6 +44,8 @@ operator-sdk.txt
 
 10) Wire up the webhooks!
 
+11) Update Dockerfile for cmd/main.go
+
 --------------------------
 Cleanup:
  drop the <operator-name>-proxy-rolebinding, and <operator-name>-proxy-role
