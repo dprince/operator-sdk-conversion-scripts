@@ -1096,7 +1096,7 @@ copy_config_files() {
     done
 
     # Copy custom directories (templates, scripts, etc.)
-    for dir in templates scripts hack; do
+    for dir in templates scripts hack docs; do
         if [ -d "$source_dir/$dir" ]; then
             echo "  Copying $dir/ directory"
             cp -r "$source_dir/$dir" "$converted_dir/"
