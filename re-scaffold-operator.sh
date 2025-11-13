@@ -1088,7 +1088,7 @@ copy_config_files() {
     echo "========================================================"
 
     # Copy common files
-    for file in .gitignore README.md LICENSE Dockerfile .dockerignore; do
+    for file in .gitignore README.md CONTRIBUTING.md LICENSE Dockerfile .dockerignore; do
         if [ -f "$source_dir/$file" ]; then
             echo "  Copying $file"
             cp "$source_dir/$file" "$converted_dir/"
@@ -1096,7 +1096,7 @@ copy_config_files() {
     done
 
     # Copy custom directories (templates, scripts, etc.)
-    for dir in templates scripts hack; do
+    for dir in templates scripts hack docs; do
         if [ -d "$source_dir/$dir" ]; then
             echo "  Copying $dir/ directory"
             cp -r "$source_dir/$dir" "$converted_dir/"
@@ -1108,6 +1108,34 @@ copy_config_files() {
         echo "  Copying config/manifests/bases/ directory"
         mkdir -p "$converted_dir/config/manifests"
         cp -r "$source_dir/config/manifests/bases" "$converted_dir/config/manifests/"
+    fi
+
+    # Copy config/default/manager_default_images.yaml if it exists
+    if [ -f "$source_dir/config/default/manager_default_images.yaml" ]; then
+        echo "  Copying config/default/manager_default_images.yaml"
+        mkdir -p "$converted_dir/config/default"
+        cp "$source_dir/config/default/manager_default_images.yaml" "$converted_dir/config/default/"
+        
+        # Add patch entry to config/default/kustomization.yaml
+        echo "  Adding manager_default_images.yaml patch to config/default/kustomization.yaml"
+        local kustomization_file="$converted_dir/config/default/kustomization.yaml"
+        if [ -f "$kustomization_file" ]; then
+            # Check if the patch entry already exists
+            if ! grep -q "manager_default_images.yaml" "$kustomization_file"; then
+                # Insert the patch entry after the patches: section
+                awk '
+                /^patches:/ {
+                    print
+                    print "# Injects our custom images (ENV variable settings)"
+                    print "- path: manager_default_images.yaml"
+                    in_patches=1
+                    next
+                }
+                { print }
+                ' "$kustomization_file" > "$kustomization_file.tmp"
+                mv "$kustomization_file.tmp" "$kustomization_file"
+            fi
+        fi
     fi
 
     echo ""
