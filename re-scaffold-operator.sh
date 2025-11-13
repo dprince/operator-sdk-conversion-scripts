@@ -440,8 +440,8 @@ migrate_controllers() {
         return
     fi
 
-    # Find all *_controller.go files
-    find "$source_dir/controllers" -name "*_controller.go" -type f | while read -r source_controller; do
+    # Find all *_controller.go or *_common.go files
+    find "$source_dir/controllers" \( -name "*_controller.go" -o -name "*_common.go" \) -type f | while read -r source_controller; do
         local controller_name=$(basename "$source_controller")
         # In v4, controllers are in internal/controller/
         local target_controller="$converted_dir/internal/controller/$controller_name"
@@ -466,6 +466,8 @@ migrate_controllers() {
             echo "  Copying controller directly..."
             mkdir -p "$converted_dir/internal/controller"
             cp "$source_controller" "$target_controller"
+            # Update the package name to 'controller' (v4 uses package controller, not controllers)
+            sed -i 's/^package controllers$/package controller/' "$target_controller"
         fi
     done
 
