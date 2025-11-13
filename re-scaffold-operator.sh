@@ -1088,7 +1088,7 @@ copy_config_files() {
     echo "========================================================"
 
     # Copy common files
-    for file in .gitignore README.md LICENSE Dockerfile .dockerignore; do
+    for file in .gitignore README.md CONTRIBUTING.md LICENSE Dockerfile .dockerignore; do
         if [ -f "$source_dir/$file" ]; then
             echo "  Copying $file"
             cp "$source_dir/$file" "$converted_dir/"
