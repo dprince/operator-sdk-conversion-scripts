@@ -23,14 +23,18 @@ git co -b operator_sdk_1.41.1
 ```
 
 6) fix paths in copied over files (use cursor)
+```
   cd test/functional
   replace: controllers with internal/controller
   replace: pkg/keystone with internal/keystone
+```
 
 7) Makefile changes (to the original Makefile):
 ```
  -update main.go to cmd/main.go
  -update api
+ -update controllers to internal/controller (if used)
+ -update pkg to internal (if used)
  -bump KUSTOMIZE_VERSION ?= v5.6.0
  -bump OPERATOR_SDK_VERSION ?= v1.41.1
  -change tests to test
