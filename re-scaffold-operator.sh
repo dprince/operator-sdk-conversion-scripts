@@ -1108,6 +1108,25 @@ copy_config_files() {
         echo "  Copying config/manifests/bases/ directory"
         mkdir -p "$converted_dir/config/manifests"
         cp -r "$source_dir/config/manifests/bases" "$converted_dir/config/manifests/"
+        
+        # Add minKubeVersion to clusterserviceversion.yaml
+        local csv_file=$(find "$converted_dir/config/manifests/bases" -name "*.clusterserviceversion.yaml" 2>/dev/null | head -n 1)
+        if [ -f "$csv_file" ]; then
+            echo "  Adding minKubeVersion: 0.0.0 to $(basename "$csv_file")"
+            # Check if minKubeVersion already exists
+            if ! grep -q "minKubeVersion:" "$csv_file"; then
+                # Insert minKubeVersion after the 'maturity: alpha' line
+                awk '
+                /maturity: alpha/ {
+                    print
+                    print "  minKubeVersion: 0.0.0"
+                    next
+                }
+                { print }
+                ' "$csv_file" > "$csv_file.tmp"
+                mv "$csv_file.tmp" "$csv_file"
+            fi
+        fi
     fi
 
     # Copy config/default/manager_default_images.yaml if it exists
