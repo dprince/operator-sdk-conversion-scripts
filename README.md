@@ -68,6 +68,8 @@ Wire up the rest of the internal/webhook functions so they call into the respect
 
 11) Update Dockerfile for cmd/main.go
 
+12) the force-bump github workflows to use quay.io/openstack-k8s-operators/openstack-k8s-operators-ci-build-tools:golang-1.24-sdk-1.41.1
+
 --------------------------
 Cleanup:
  drop the <operator-name>-proxy-rolebinding, and <operator-name>-proxy-role
