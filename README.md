@@ -60,7 +60,11 @@ git co -b operator_sdk_1.41.1
 
 ```
 
-10) Wire up the webhooks!
+10) Wire up the webhooks! I used Claude code for this:
+
+```
+Wire up the rest of the internal/webhook functions so they call into the respective library calls in api/v1beta1. We treat the api/v1beta1 functions as a library as they are used externally. So for the functions with TODO's in them make the appropriate call to the api/v1beta1 version. Also, can you update test/functional/suite_test.go so that it uses the webhooks from internal/webhooks with making the SetupWebhookWithManager call. Finally also add the call to SetupDefaults to cmd/main.go
+```
 
 11) Update Dockerfile for cmd/main.go
 
